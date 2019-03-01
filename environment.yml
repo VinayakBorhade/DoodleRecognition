@@ -1,4 +1,4 @@
-name: finalProject
+name: DoodleRecognition
 channels:
   - defaults
 dependencies:
