@@ -40,6 +40,7 @@ def generate(batch_size):
 		name = filename.split('.')[0]
 		x = np.load(fullpath, mmap_mode='r')
 		size = x.shape[0]
+		print("inside generate, name: ",name," , size",size)
 		y = [name for i in range(size)]
 		reset = False
 		end = 0
@@ -51,12 +52,31 @@ def generate(batch_size):
 				reset = True
 			yield x[start: end], y[start: end]
 
-
 def main():
 	#USE
+	total_size=0
+	X,Y=[],[]
+	f=True
 	for x, y in generate(batch_size=64):
+		'''
 		print("x: ",x)
 		print("y: ",y)
+		print("x.size(): ",len(x))
+		print("y.size(): ",len(y))
+		'''
+		
+		total_size+=len(x)
+		if f:
+			f=False
+			print("type(X): ", type(X))
+			print("type(x): ", type(x))
+		
+		#X+=x.astype(int)
+		X.append(x)
+		#Y=Y+y
+	print("total_size: ",total_size)
+	print("X.size: ",len(X))
+	print("Y.size: ",len(Y))
 		#Forward propagate
 		#where x, y are minibatches of size (64, 784)
     
