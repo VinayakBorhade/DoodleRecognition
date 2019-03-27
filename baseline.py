@@ -1,3 +1,4 @@
+#baseline.py
 import numpy
 import pandas
 from keras.models import Sequential
@@ -8,15 +9,14 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
 from sklearn.preprocessing import LabelEncoder
 from sklearn.pipeline import Pipeline
-
-from massageData import massageData
+from messageData import messageData
+#execfile('messageData.py')
 # TODO: make split (train, test, dev)
 CLASS_NUM = 3
-
 def baseline_model():
     # create model
     model = Sequential()
-    model.add(Dense(1, input_dim=massageData.BITMAP_DIM, activation='sigmoid'))
+    model.add(Dense(1, input_dim=messageData.BITMAP_DIM, activation='sigmoid'))
     model.add(Dense(CLASS_NUM, activation='softmax'))
     # Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -28,7 +28,7 @@ def main():
     seed = 7
     numpy.random.seed(seed)
     # load dataset
-    data = massageData()
+    data = messageData()
     X = data.getX()
     Y = data.getY()
     print ("Done load dataset")
