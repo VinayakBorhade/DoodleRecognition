@@ -2,16 +2,14 @@ import base64
 import numpy as np
 import io
 from PIL import Image
-#import keras
-#from keras import backend as K
+import keras
+from keras import backend as K
 import tensorflow as tf
 from keras.models import Sequential, load_model
 from keras.preprocessing.image import ImageDataGenerator, img_to_array
 from flask import request, jsonify, Flask
 app=Flask(__name__)
 def get_model():
-    global graph
-    graph = tf.get_default_graph()
     global model
     model=load_model("doodle_trial_model.h5")
     print(" * Model loaded!")
@@ -38,3 +36,5 @@ def predict():
         }
     }
     return jsonify(response)
+if __name__=="__main__":
+	app.run()
