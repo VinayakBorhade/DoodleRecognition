@@ -25,7 +25,7 @@
                 let dataURL=reader.result;
                 $("#selected-image").attr("src", dataURL);
                 base64Image=dataURL.replace("data:image/png;base64,","");
-                console.log(base64Image);
+                console.log("base64Image: ", base64Image);
             }
             reader.readAsDataURL($("#image-selector")[0].files[0]);
             $("#airplane-prediction").text("");
@@ -36,12 +36,14 @@
             let message={
                 image:base64Image
             }
-            console.log(message);
+            console.log("predict clicked!, message: ", message);
             $.post("http://localhost:5000/predict", JSON.stringify(message), function(response){
                 $("#airplane-prediction").text(response.prediction.airplane.toFixed(6));
                 $("#apple-prediction").text(response.prediction.apple.toFixed(6));
                 $("#banana-prediction").text(response.prediction.banana.toFixed(6));
-                console.log(response);
+                console.log("airplane: ", response.prediction.airplane.toFixed(6));
+                console.log("apple: ", response.prediction.apple.toFixed(6));
+                console.log("banana: ", response.prediction.banana.toFixed(6));
             });
         });
     </script>
