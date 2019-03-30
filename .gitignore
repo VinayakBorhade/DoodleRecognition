@@ -3,3 +3,6 @@ data/
 
 #test files
 test.py
+
+#cache files
+flask_apps/__pycache__/
