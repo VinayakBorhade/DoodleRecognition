@@ -10,7 +10,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
 from sklearn.preprocessing import LabelEncoder
 from sklearn.pipeline import Pipeline
-import massageData
+#import massageData
 
 CLASS_NUM = 3
 BITMAP_DIM=784
@@ -53,6 +53,7 @@ def main():
                   samples_per_epoch=data.total_len_train,
                   validation_data=validation_generator,
                   nb_val_samples=data.total_len_valid, epochs=EPOCHS, steps_per_epoch=BATCH_SIZE, verbose=1)
-
+  print("Model training, testing completed- Saving Model...")
+  model.save("doodle_trial_model.h5")
 if __name__ == '__main__':
   main()
