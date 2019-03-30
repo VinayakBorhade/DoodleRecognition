@@ -1,68 +1,58 @@
-#baseline.py
+#baseline.py modified
 import numpy
-import pandas
 import time
-
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras.utils import np_utils
 from keras.callbacks import TensorBoard
-
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
 from sklearn.preprocessing import LabelEncoder
 from sklearn.pipeline import Pipeline
-
-#import massageData
-#import myConstants as mc
+import massageData
 
 CLASS_NUM = 3
 BITMAP_DIM=784
-def baseline_models():
-    # create model
-    model = Sequential()
-    model.add(Dense(1, input_dim=BITMAP_DIM, activation='sigmoid'))
-    model.add(Dense(CLASS_NUM, activation='softmax'))
-    # Compile model
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    return model
+BATCH_SIZE=100
+EPOCHS=2
+model=None
+def baseline_model():
+  # create model
+  # model.add(Dense(1, input_dim=BITMAP_DIM, activation='sigmoid'))
+  # model.add(Dense(CLASS_NUM, activation='softmax'))
+  # # Compile model
+  # model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+  model = Sequential()
+  model.add(Dense(units=600, activation='relu', input_dim=784))
+  model.add(Dropout(0.3))
+  model.add(Dense(units=400, activation='relu'))
+  model.add(Dropout(0.3))
+  model.add(Dense(units=100, activation='relu'))
+  model.add(Dropout(0.3))
+  model.add(Dense(units=25, activation='relu'))
+  model.add(Dropout(0.3))
+  model.add(Dense(units=CLASS_NUM, activation='softmax'))
+  model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+  return model
 
 def main():
-    print ("Done loading the libraries")
-    t0 = time.time()
-    # fix random seed for reproducibility
-    seed = 7
-    numpy.random.seed(seed)
-
-    # load dataset
-    data = messageData()
-    X, Y = data.getData()
-
-    print ("Done load dataset")
-
-    # do some more preprocessing
-    # encode class values as integers
-    encoder = LabelEncoder()
-    encoder.fit(Y)
-    encoded_Y = encoder.transform(Y)
-    # convert integers to dummy variables (i.e. one hot encoded)
-    dummy_y = np_utils.to_categorical(encoded_Y)
-
-    print ("Done preprocessing dataset")
-
-    # build the model
-    tensorboard = TensorBoard()
-    estimator = KerasClassifier(build_fn=baseline_models, epochs=10, batch_size=500, verbose=1)
-
-    print ("Done building estimator")
-
-    kfold = KFold(n_splits=2, shuffle=True, random_state=seed)
-
-    results = cross_val_score(estimator, X, dummy_y, cv=kfold, verbose=1, fit_params={'callbacks': [tensorboard]})
-    t1 = time.time()
-    print("Time elapsed: ", t1 - t0)
-    print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
+  print ("Done loading the libraries")
+  t0 = time.time()
+  seed = 7
+  numpy.random.seed(seed)
+  data = messageData()
+  data.setLengths()
+  #generators
+  train_generator = data.generator('data/numpy_bitmap/', isTrain=True, batch_size=BATCH_SIZE) 
+  validation_generator = data.generator('data/numpy_bitmap/', isTrain=False, batch_size=BATCH_SIZE)
+  print("length of train_samples: ",data.total_len_train)
+  print("length of validation_samples: ",data.total_len_valid)
+  model = baseline_model()
+  model.fit_generator(train_generator, 
+                  samples_per_epoch=data.total_len_train,
+                  validation_data=validation_generator,
+                  nb_val_samples=data.total_len_valid, epochs=EPOCHS, steps_per_epoch=BATCH_SIZE, verbose=1)
 
 if __name__ == '__main__':
-    main()
+  main()
