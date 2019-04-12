@@ -12,9 +12,10 @@
     <input id="image-selector" type="file">
     <button id="predict-button">Predict</button>
     <p style="font-weight:bold">Predictions</p>
-    <p>airplane: <span id="airplane-prediction"></span></p>
     <p>apple: <span id="apple-prediction"></span></p>
     <p>banana: <span id="banana-prediction"></span></p>
+    <p>circle: <span id="circle-prediction"></span></p>
+    <p>pineapple: <span id="pineapple-prediction"></span></p>
     <img id="selected-image" src=""/>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
@@ -39,6 +40,7 @@
             }
             console.log("predict clicked!, message: ", message);
             $.post("http://localhost:5000/predict", JSON.stringify(message), function(response){
+            	//console.log("response: ", resp)
                 $("#apple-prediction").text(response.prediction.apple.toFixed(6));
                 $("#banana-prediction").text(response.prediction.banana.toFixed(6));
                 $("#circle-prediction").text(response.prediction.circle.toFixed(6));

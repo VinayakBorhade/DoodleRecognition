@@ -12,7 +12,7 @@ from flask import request, jsonify, Flask
 app=Flask(__name__)
 def get_model():
 	global model
-	model=load_model("doodle_trial_model.h5")
+	model=load_model("doodle_trial_model (2).h5")
 	print(" * Model loaded!")
 	global graph
 	graph = tf.get_default_graph()
