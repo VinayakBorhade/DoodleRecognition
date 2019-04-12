@@ -31,7 +31,7 @@ def predict():
 	decoded=base64.b64decode(encoded)
 	image=Image.open(io.BytesIO(decoded))
 	#processed_image=preprocess_image(image, target_size=(28,28))
-	image.resize((28, 28), Image.ANTIALIAS)
+	image.resize((80, 80), Image.ANTIALIAS)
 	image=np.array(image)
 	#image_np=numpy.array(image)
 	#print("before image slicing!!!!!!")
@@ -51,9 +51,10 @@ def predict():
 		print(prediction)
 		response={
 			'prediction':{
-				'airplane':prediction[0][0],
-				'apple':prediction[0][1],
-				'banana':prediction[0][2]
+				'apple':prediction[0][0],
+				'banana':prediction[0][1],
+				'circle':prediction[0][2],
+				'pineapple':prediction[0][3]
 			}
 		}
 		#print("made prediction response: ", prediction)
