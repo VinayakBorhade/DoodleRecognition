@@ -5,7 +5,7 @@ Dataset to use is the Google Quick Draw dataset
 Kaggle Link - https://www.kaggle.com/c/quickdraw-doodle-recognition/
 Github Link - https://github.com/googlecreativelab/quickdraw-dataset 
 
-<img src="https://github.com/VinayakBorhade/DoodleRecognition/tree/master/samples" width="50%" />
+<img src="https://github.com/VinayakBorhade/DoodleRecognition/blob/master/samples/results.PNG" width="50%" />
 
 ## Requirements
 * Python
