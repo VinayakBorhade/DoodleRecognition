@@ -7,8 +7,35 @@
             font-size: 30px;
         }
     </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart(a,b,c,d) {
+        var data = google.visualization.arrayToDataTable([
+          ['Doodles', 'Apple', 'Banana', 'Circle', 'Pineapple'],
+          [' ',a,b,c,d],
+        ]);
+
+        var options = {
+          chart: {
+            title: 'Doodle Recognition',
+            subtitle: 'Hand-drawn fruits',
+          },
+          bars: 'vertical' // Required for Material Bar Charts.
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+
 </head>
 <body>
+	<div class="a" style="float: left;">
     <input id="image-selector" type="file">
     <button id="predict-button">Predict</button>
     <p style="font-weight:bold">Predictions</p>
@@ -16,7 +43,9 @@
     <p>banana: <span id="banana-prediction"></span></p>
     <p>circle: <span id="circle-prediction"></span></p>
     <p>pineapple: <span id="pineapple-prediction"></span></p>
-    <img id="selected-image" src=""/>
+    <img id="selected-image" src="" style="width:200px;height:200px;"/>
+    </div>
+    <div id="barchart_material" style="float:left;width: 500px; height: 500px;border:1px solid black;"></div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
         let base64Image;
@@ -34,21 +63,29 @@
             $("#circle-prediction").text("");
             $("#pineapple-prediction").text("");
         });
+        $("#barchart_material").hide();
         $("#predict-button").click(function(event){
             let message={
                 image:base64Image
             }
             console.log("predict clicked!, message: ", message);
             $.post("http://localhost:5000/predict", JSON.stringify(message), function(response){
-            	//console.log("response: ", resp)
-                $("#apple-prediction").text(response.prediction.apple.toFixed(6));
-                $("#banana-prediction").text(response.prediction.banana.toFixed(6));
-                $("#circle-prediction").text(response.prediction.circle.toFixed(6));
-                $("#pineapple-prediction").text(response.prediction.pineapple.toFixed(6));
-                console.log("apple: ", response.prediction.apple.toFixed(6));
-                console.log("banana: ", response.prediction.banana.toFixed(6));
-                console.log("circle: ", response.prediction.circle.toFixed(6));
-                console.log("pineapple: ", response.prediction.pineapple.toFixed(6));
+            	console.log("response: ", response)
+            	a=response.prediction.apple.toFixed(6);
+            	b=response.prediction.banana.toFixed(6);
+            	c=response.prediction.circle.toFixed(6);
+            	d=response.prediction.pineapple.toFixed(6);
+            	
+                $("#apple-prediction").text(a);
+                $("#banana-prediction").text(b);
+                $("#circle-prediction").text(c);
+                $("#pineapple-prediction").text(d);
+                drawChart(a, b, c, d);
+            	$("#barchart_material").show();
+                console.log("apple: ", a);
+                console.log("banana: ", b);
+                console.log("circle: ", c);
+                console.log("pineapple: ", d);
             });
         });
     </script>
