@@ -5,7 +5,7 @@ Dataset to use is the Google Quick Draw dataset
 Kaggle Link - https://www.kaggle.com/c/quickdraw-doodle-recognition/
 Github Link - https://github.com/googlecreativelab/quickdraw-dataset 
 
-<img src="/samples/results.png" width="50%" />
+<img src="https://github.com/VinayakBorhade/DoodleRecognition/tree/master/samples" width="50%" />
 
 ## Requirements
 * Python
@@ -20,8 +20,8 @@ Github Link - https://github.com/googlecreativelab/quickdraw-dataset
 
 Download and move into the project directory
 ```
-$ git clone https://github.com/SouravJohar/doodle-classifier.git
-$ cd doodle-classifier 
+$ git clone https://github.com/VinayakBorhade/DoodleRecognition.git
+$ cd DoodleRecognition
 ```
 
 Run the app with flask server
