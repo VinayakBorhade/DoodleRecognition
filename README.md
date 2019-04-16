@@ -57,5 +57,3 @@ The fulldataset is big (~37GB). For initial testing, we would be using a small s
 ```
 $ ./download_minidataset.sh
 ```
-
-## Building the Model
